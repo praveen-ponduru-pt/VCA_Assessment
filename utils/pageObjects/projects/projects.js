@@ -71,13 +71,21 @@ class Projects {
 
     async addNewProject() {
 
-        await this.addNewProjectButton.click()
+        await this.addNewProjectButton.click();
         await this.fillNameField('Test');
         await this.fillClientField('Hamill LLC');
         await this.clientDropdownMenu.click();
         await this.okButton.click();
     }
 
+    async updateProject(){
+
+        await this.addNewProjectButton.click();
+        await this.fillNameField('Test');
+        await this.fillClientField('Hamill LLC');
+        await this.clientDropdownMenu.click();
+        await this.okButton.click();
+    }
 }
 
 export { Projects };

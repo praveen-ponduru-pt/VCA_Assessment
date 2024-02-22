@@ -1,7 +1,17 @@
 {
     "login": {
         "header": "Login",
-        "subtitle": "Please login to proceed."
+        "subtitle": "Please login to proceed.",
+        "invalidEmailMessage": "The Email field is not a valid e-mail address.",
+        "emailFieldRequiredMessage": "The Email field is required.",
+        "passwordFieldRequiredMessage": "The Password field is required.",
+        "invalidCredentialsMessage": "The credentials provided could not be validated."
+    },
+    "credentials": {
+        "incorrectEmail": "random@gmail.com",
+        "incorrectPassword": "randomPassword",
+        "invalidEmailAddress": "invalid_username",
+        "emptyString": ""
     },
     "projects": {
         "header": "Projects"

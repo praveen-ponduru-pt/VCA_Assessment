@@ -14,7 +14,7 @@ test('Navigation to projects menu @projects', async ({ page }) => {
 
 });
 
-test.only('Check the UI elements in Projects page @projects', async ({ page }) => {
+test('Check the UI elements in Projects page @projects', async ({ page }) => {
 
     const navigationMenu = new NavigationMenu(page);
 
@@ -62,7 +62,7 @@ test('Verify the UI elements of Add New Project modal @projects @visibility', as
 });
 
 
-test.only('Verify Add New Project @projects', async ({ page }) => {
+test('Verify Add New Project @projects', async ({ page }) => {
 
     const navigationMenu = new NavigationMenu(page);
 
@@ -71,7 +71,7 @@ test.only('Verify Add New Project @projects', async ({ page }) => {
     await expect(page).toHaveURL(process.env.BASEURL + 'projects');
 
     const projectsPage = new Projects(page);
-    projectsPage.addNewProject();
+    await projectsPage.addNewProject();
     await expect(projectsPage.addProjectModal).toBeHidden();
 });
 

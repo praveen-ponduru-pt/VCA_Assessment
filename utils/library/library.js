@@ -1,4 +1,5 @@
 import { LoginPage } from "../pageObjects/loginPage"
+import { expect } from "playwright/test";
 
 const library = {
 
@@ -6,34 +7,53 @@ const library = {
 
         const loginPage = new LoginPage(page);
 
-        const baseURL = process.env.BASEURL;
         const username = process.env.USERNAME;
         const password = process.env.PASSWORD;
 
-        await page.goto(baseURL);
+        await this.navigateToTheApplication(page);
+        await loginPage.waitUntilLoginPageIsLoaded();
         await loginPage.login(username, password);
     },
 
     async navigateToTheApplication(page) {
 
         const baseURL = process.env.BASEURL;
+        const loginPage = new LoginPage(page);
+
         await page.goto(baseURL);
+        await loginPage.waitUntilLoginPageIsLoaded();
     },
 
-    async waitUntilLoaderIsHidden(page) {
+    async waitForLocatorVisiblity(locator) {
 
-        await page.waitForSelector('iframe.snapshot-visible');
+        // Wait for the element located by the provided locator to become visible
+        await locator.waitFor({ state: 'visible' });
+    },
 
-        // Get the frame element handle
-        const frameHandle = await page.waitForSelector('iframe.snapshot-visible');
+    // async waitUntilLoaderIsHidden(page) {
 
-        // Wait for the frame to load
-        const frame = await frameHandle.contentFrame();
+    //     await page.waitForSelector('iframe.snapshot-visible');
 
-        // Wait for the element with class 'is-loading' to become hidden inside the frame
-        await frame.waitForSelector('.is-loading', { state: 'hidden' });
+    //     // Get the frame element handle
+    //     const frameHandle = await page.waitForSelector('iframe.snapshot-visible');
+
+    //     // Wait for the frame to load
+    //     const frame = await frameHandle.contentFrame();
+
+    //     // Wait for the element with class 'is-loading' to become hidden inside the frame
+    //     await frame.waitForSelector('.is-loading', { state: 'hidden' });
+    // },
+
+    async getAClient() {
+
+        
+    },
+
+    async verifyPageURL(page) {
+
+        const baseURL = process.env.BASEURL;
+        await expect(page).tohaveURL(baseURL + page);
     }
-
 }
 
 export { library };

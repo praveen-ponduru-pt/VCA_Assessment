@@ -1,4 +1,5 @@
 import { expect } from "playwright/test";
+import { library } from "../../library/library";
 
 class Projects {
     constructor(page) {
@@ -27,6 +28,11 @@ class Projects {
         this.cancelButton = page.locator('div.modal-card>footer>button').filter({ name: 'Cancel' });
     }
 
+    async waitUntilProjectsPageIsLoaded() {
+
+        await library.waitForLocatorVisiblity(this.header);
+    }
+
     async verifyStageDropdownValues(page) {
 
         const dropdown = await page.waitForSelector('select');
@@ -39,7 +45,7 @@ class Projects {
                 options.push(option.textContent.trim());
             }
         });
-        await expect(options).toEqual(dropdownValues);
+        expect(options).toEqual(dropdownValues);
 
     }
 
@@ -61,6 +67,15 @@ class Projects {
     async fillNotesField(notes) {
 
         await this.page.notesField.fill(notes);
+    }
+
+    async addNewProject() {
+
+        await this.addNewProjectButton.click()
+        await this.fillNameField('Test');
+        await this.fillClientField('Hamill LLC');
+        await this.clientDropdownMenu.click();
+        await this.okButton.click();
     }
 
 }

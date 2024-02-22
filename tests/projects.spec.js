@@ -14,12 +14,13 @@ test('Navigation to projects menu @projects', async ({ page }) => {
 
 });
 
-test('Check the UI elements in Projects page @projects', async ({ page }) => {
+test.only('Check the UI elements in Projects page @projects', async ({ page }) => {
 
     const navigationMenu = new NavigationMenu(page);
 
     await library.loginToTheApplication(page);
     await navigationMenu.navigateToProjects(page);
+    await expect(page).toHaveURL(process.env.BASEURL + 'projects');
 
     // await library.waitUntilLoaderIsHidden(page);
 
@@ -44,6 +45,7 @@ test('Verify the UI elements of Add New Project modal @projects @visibility', as
 
     await library.loginToTheApplication(page);
     await navigationMenu.navigateToProjects(page);
+    await expect(page).toHaveURL(process.env.BASEURL + 'projects');
 
     const projectsPage = new Projects(page);
     await projectsPage.addNewProjectButton.click();
@@ -66,13 +68,20 @@ test.only('Verify Add New Project @projects', async ({ page }) => {
 
     await library.loginToTheApplication(page);
     await navigationMenu.navigateToProjects(page);
+    await expect(page).toHaveURL(process.env.BASEURL + 'projects');
 
     const projectsPage = new Projects(page);
-    await projectsPage.addNewProjectButton.click()
-
-    await projectsPage.fillNameField('Test');
-    await projectsPage.fillClientField('Hamill LLC');
-    await projectsPage.clientDropdownMenu.click();
-    await projectsPage.okButton.click();
+    projectsPage.addNewProject();
     await expect(projectsPage.addProjectModal).toBeHidden();
-})
+});
+
+test('Edit the created project @projects', async ({ page }) => {
+
+    await library.loginToTheApplication(page);
+    await navigationMenu.navigateToProjects(page);
+    await expect(page).toHaveURL(process.env.BASEURL + 'projects');
+
+    const projectsPage = new Projects(page);
+    projectsPage.addNewProject();
+
+});

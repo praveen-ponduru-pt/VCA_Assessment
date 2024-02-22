@@ -1,3 +1,5 @@
+import { Projects } from "./projects/projects";
+
 class NavigationMenu {
     constructor(page) {
 
@@ -9,6 +11,9 @@ class NavigationMenu {
     async navigateToProjects(page) {
 
         await this.projectsMenu.click();
+        const projectsPage = new Projects(page);
+
+        projectsPage.waitUntilProjectsPageIsLoaded();
     }
 }
 

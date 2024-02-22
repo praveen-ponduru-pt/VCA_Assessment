@@ -11,7 +11,7 @@ test('Login to the Application @login', async ({ page }) => {
 test('Check the visibility of all the fields @login @visibility', async ({ page }) => {
 
     await library.navigateToTheApplication(page);
-    await page.waitForLoadState();
+
     const loginPage = new LoginPage(page);
     await expect.soft(loginPage.header).toBeVisible();
     await expect.soft(loginPage.header).toHaveText(login.header);
@@ -23,5 +23,4 @@ test('Check the visibility of all the fields @login @visibility', async ({ page 
     await expect.soft(loginPage.password).toBeVisible();
     await expect.soft(loginPage.rememberMeCheckbox).toBeVisible();
     await expect.soft(loginPage.loginButton).toBeVisible();
-
 });

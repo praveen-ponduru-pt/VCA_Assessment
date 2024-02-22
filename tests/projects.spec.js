@@ -14,7 +14,7 @@ test('Navigation to projects menu @projects', async ({ page }) => {
 
 });
 
-test.only('Check the UI elements in Projects page', async ({ page }) => {
+test('Check the UI elements in Projects page @projects', async ({ page }) => {
 
     const navigationMenu = new NavigationMenu(page);
 
@@ -38,7 +38,7 @@ test.only('Check the UI elements in Projects page', async ({ page }) => {
 
 });
 
-test.only('Verify the UI elements of Add New Project modal @projects @visibility', async ({ page }) => {
+test('Verify the UI elements of Add New Project modal @projects @visibility', async ({ page }) => {
 
     const navigationMenu = new NavigationMenu(page);
 
@@ -47,7 +47,32 @@ test.only('Verify the UI elements of Add New Project modal @projects @visibility
 
     const projectsPage = new Projects(page);
     await projectsPage.addNewProjectButton.click();
+    await expect.soft(projectsPage.closeButton).toBeVisible();
+
+    await expect.soft(projectsPage.nameField).toBeVisible();
+    await expect.soft(projectsPage.clientField).toBeVisible();
+    await expect.soft(projectsPage.stageDropdown).toBeVisible();
 
 
+    await expect.soft(projectsPage.descriptionField).toBeVisible();
+    await expect.soft(projectsPage.notesField).toBeVisible();
 
 });
+
+
+test.only('Verify Add New Project @projects', async ({ page }) => {
+
+    const navigationMenu = new NavigationMenu(page);
+
+    await library.loginToTheApplication(page);
+    await navigationMenu.navigateToProjects(page);
+
+    const projectsPage = new Projects(page);
+    await projectsPage.addNewProjectButton.click()
+
+    await projectsPage.fillNameField('Test');
+    await projectsPage.fillClientField('Hamill LLC');
+    await projectsPage.clientDropdownMenu.click();
+    await projectsPage.okButton.click();
+    await expect(projectsPage.addProjectModal).toBeHidden();
+})

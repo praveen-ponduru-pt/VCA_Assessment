@@ -1,0 +1,9 @@
+{
+    "login": {
+        "header": "Login",
+        "subtitle": "Please login to proceed."
+    },
+    "projects": {
+        "header": "Projects"
+    }
+}

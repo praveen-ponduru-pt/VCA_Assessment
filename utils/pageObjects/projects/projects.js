@@ -1,5 +1,6 @@
 import { expect } from "playwright/test";
 import { library } from "../../library/library";
+import { Clients } from "../clients/clients";
 
 class Projects {
     constructor(page) {
@@ -46,7 +47,6 @@ class Projects {
             }
         });
         expect(options).toEqual(dropdownValues);
-
     }
 
     async fillNameField(projectName) {
@@ -61,28 +61,33 @@ class Projects {
 
     async fillDescriptionField(description) {
 
-        await this.page.descriptionField.fill(description);
+        await this.descriptionField.fill(description);
     }
 
     async fillNotesField(notes) {
 
-        await this.page.notesField.fill(notes);
+        await this.notesField.fill(notes);
     }
 
-    async addNewProject() {
+    async addNewProject(page, projectDetails) {
+
+        let clientName = await library.getARandomClient(page);
+        console.log(clientName);
 
         await this.addNewProjectButton.click();
-        await this.fillNameField('Test');
-        await this.fillClientField('Hamill LLC');
+        await this.fillNameField(projectDetails.projectName);
+        await this.fillClientField(clientName);
         await this.clientDropdownMenu.click();
+        await this.descriptionField.fill(projectDetails.description);
+        await this.notesField.fill(projectDetails.notes);
         await this.okButton.click();
     }
 
-    async updateProject(){
+    async updateProject(page, projectDetails) {
 
         await this.addNewProjectButton.click();
-        await this.fillNameField('Test');
-        await this.fillClientField('Hamill LLC');
+        await this.fillNameField(projectDetails.projectName);
+        await this.fillClientField(clientName);
         await this.clientDropdownMenu.click();
         await this.okButton.click();
     }

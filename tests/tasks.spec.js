@@ -6,13 +6,13 @@ import { Tasks } from '../utils/pageObjects/projects/tasks';
 
 test.describe("Login to new task creation", () => {
 
-    test.only("Create a new task", async ({ page }) => {
+    test("Create a new task", async ({ page }) => {
 
-        await test.step("Login into portal", async () => {
+        await test.step("Login into the applicaiton", async () => {
             await library.loginToTheApplication(page);
         });
 
-        await test.step("Navigate to projects", async () => {
+        await test.step("Navigate to projects module", async () => {
             const navigationMenu = new NavigationMenu(page);
             await navigationMenu.navigateToProjects(page);
             await expect(page).toHaveURL(process.env.BASEURL + 'projects');

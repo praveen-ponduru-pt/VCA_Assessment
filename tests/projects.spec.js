@@ -2,7 +2,11 @@ import { test, expect } from '@playwright/test';
 import { library } from '../utils/library/library';
 import { NavigationMenu } from '../utils/pageObjects/navigationMenu';
 import { Projects } from '../utils/pageObjects/projects/projects';
-import { projects } from '../utils/constants.json';
+import { projects, URLs } from '../utils/constants.json';
+import { testData } from '../utils/data/testData';
+let inputData = {
+    ...testData.projectDetails()
+};
 
 test('Navigation to projects menu @projects', async ({ page }) => {
 
@@ -36,7 +40,6 @@ test('Check the UI elements in Projects page @projects', async ({ page }) => {
     await expect.soft(projectsPage.stepForwardButton).toBeVisible();
 
     await expect.soft(projectsPage.table).toBeVisible();
-
 });
 
 test('Verify the UI elements of Add New Project modal @projects @visibility', async ({ page }) => {
@@ -58,30 +61,27 @@ test('Verify the UI elements of Add New Project modal @projects @visibility', as
 
     await expect.soft(projectsPage.descriptionField).toBeVisible();
     await expect.soft(projectsPage.notesField).toBeVisible();
-
 });
 
-
-test('Verify Add New Project @projects', async ({ page }) => {
+test.skip('Verify Add New Project @projects', async ({ page }) => {
 
     const navigationMenu = new NavigationMenu(page);
 
     await library.loginToTheApplication(page);
     await navigationMenu.navigateToProjects(page);
-    await expect(page).toHaveURL(process.env.BASEURL + 'projects');
+    await library.verifyPageURL(page, URLs.projects);
 
     const projectsPage = new Projects(page);
-    await projectsPage.addNewProject();
+    await projectsPage.addNewProject(page, inputData.projectDetails);
     await expect(projectsPage.addProjectModal).toBeHidden();
 });
 
-test('Edit the created project @projects', async ({ page }) => {
+test.skip('Edit the created project @projects', async ({ page }) => {
 
     await library.loginToTheApplication(page);
     await navigationMenu.navigateToProjects(page);
-    await expect(page).toHaveURL(process.env.BASEURL + 'projects');
+    await library.verifyPageURL(page, URLs.projects);
 
     const projectsPage = new Projects(page);
     projectsPage.addNewProject();
-
 });

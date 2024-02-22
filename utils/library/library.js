@@ -1,5 +1,6 @@
 import { LoginPage } from "../pageObjects/loginPage"
 import { expect } from "playwright/test";
+import { Clients } from "../pageObjects/clients/clients";
 
 const library = {
 
@@ -44,15 +45,28 @@ const library = {
     //     await frame.waitForSelector('.is-loading', { state: 'hidden' });
     // },
 
-    async getAClient() {
-
-        
-    },
-
-    async verifyPageURL(page) {
+    async verifyPageURL(page, menu) {
 
         const baseURL = process.env.BASEURL;
-        await expect(page).tohaveURL(baseURL + page);
+        await expect(page).toHaveURL(baseURL + menu);
+    },
+
+    async randomInteger(min, max) {
+
+        // now rand is from  (min-0.5) to (max+0.5)
+        let rand = min - 0.5 + Math.random() * (max - min + 1);
+        return Math.round(rand);
+    },
+
+    async getARandomClient(page) {
+
+        const clientsPage = new Clients(page);
+        const clients = await clientsPage.getClientsList(page);
+        console.log(clients);
+        let randomNumber = await this.randomInteger(0, clients.length)
+        console.log(randomNumber);
+        console.log(clients[randomNumber]);
+        return clients[randomNumber];
     }
 }
 

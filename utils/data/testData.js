@@ -1,13 +1,16 @@
 import { faker } from '@faker-js/faker';
 
 let testData = {
-    createCoverageDetails: () => {
-        let coverage = {
-            projectName: faker.commerce.productName(),
-            description: faker.faker.lorem.sentence(),
-            notes: faker.lorem.sentence()
-        };
-        return coverage;
+
+    projectDetails: () => {
+        let inputData = {
+            projectDetails: {
+                projectName: faker.commerce.productName(),
+                description: faker.lorem.sentence(),
+                notes: faker.lorem.sentence()
+            }
+        }
+        return inputData;
     }
 }
 

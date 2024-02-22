@@ -15,5 +15,10 @@
     },
     "projects": {
         "header": "Projects"
+    },
+    "URLs": {
+        "projects": "projects",
+        "tasks": "tasks"
+        
     }
 }

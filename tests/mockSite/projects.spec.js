@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { library } from '../../utils/mockSite/library/library';
 import { NavigationMenu } from '../../utils/mockSite/pageObjects/navigationMenu';
 import { Projects } from '../../utils/mockSite/pageObjects/projects/projects';
-import { projects, URLs } from '../../utils/mockSite/constants.json';
+import { URLs } from '../../utils/mockSite/constants.json';
 import { testData } from '../../utils/mockSite/data/testData';
 let inputData = {
     ...testData.projectDetails(),

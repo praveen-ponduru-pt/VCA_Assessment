@@ -8,7 +8,7 @@ test('Login to the Application @login', async ({ page }) => {
     await library.loginToTheApplication(page);
 });
 
-test('Check the visibility of all the fields @login @visibility', async ({ page }) => {
+test('Check The Visibility Of All The Fields @login @visibility', async ({ page }) => {
 
     await library.navigateToTheApplication(page);
 
@@ -25,9 +25,9 @@ test('Check the visibility of all the fields @login @visibility', async ({ page 
     await expect.soft(loginPage.loginButton).toBeVisible();
 });
 
-test.describe("Invalid Login functionality scenarios @login @invalidLogins", async () => {
+test.describe("Invalid Login Functionality Scenarios @login @invalidLogins", async () => {
 
-    test('Login with invalid credentials', async ({ page }) => {
+    test('Login With Invalid Credentials', async ({ page }) => {
 
         const loginPage = new LoginPage(page);
 
@@ -37,7 +37,7 @@ test.describe("Invalid Login functionality scenarios @login @invalidLogins", asy
         await expect(loginPage.errorMessageBox, " Validating the invalid credintials error displayed").toHaveText(login.invalidCredentialsMessage);
     });
 
-    test('Login with invalid username', async ({ page }) => {
+    test('Login With Invalid Username', async ({ page }) => {
 
         const loginPage = new LoginPage(page);
 

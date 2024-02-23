@@ -65,8 +65,8 @@ class Tasks {
     }
 
     /**
-     * 
-     * @param {ProjectName} projectName 
+     * This method is used to create a new task for a project
+     * @param projectName 
      */
     async createNewTask(projectName, taskname) {
         await library.waitForLocatorVisiblity(this.pageHeader);
@@ -84,10 +84,15 @@ class Tasks {
         await this.dragFrom.dragTo(this.inProgressTasks);
     }
 
+    /**
+     * This method is used to create a new task for a project
+     * @param projectName 
+     */
     async editTask() {
         await this.dropdownIcon.click();
         await this.editTaskOption.click();
     }
+
 
     async fillDetailsInEditTask() {
         await this.taskTitle.fill(this.editedTitle);

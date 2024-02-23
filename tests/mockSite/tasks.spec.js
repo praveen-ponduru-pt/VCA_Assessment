@@ -16,13 +16,13 @@ test.beforeEach("login to application", async ({ page }) => {
     await library.loginToTheApplication(page);
 });
 
-test.describe("Testcases related to tasks @tasks", () => {
+test.describe("Testcases Related To Tasks @tasks", () => {
 
     test("Verify the visibility of element in tasks creation page", async ({ page }) => {
         const navigationMenu = new NavigationMenu(page);
         const projectsPage = new Projects(page);
 
-        await test.step("Navigate to projects", async () => {
+        await test.step("Navigate To Projects Module", async () => {
 
             await navigationMenu.navigateToProjects(page);
             await library.verifyPageURL(page, URLs.projects);

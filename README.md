@@ -4,6 +4,6 @@
 
 npm install && npx playwright install
 
-# How to run automation scripts locally
+# To run automation scripts locally
 
 npx playwright test

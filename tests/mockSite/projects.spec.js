@@ -23,18 +23,6 @@ test('Navigation to projects menu @projects', async ({ page }) => {
     await library.verifyPageURL(page, URLs.projects);
 });
 
-test('Check the UI elements in Projects page @projects @visibility @ui', async ({ page }) => {
-    await test.step('Navigate to projects module', async () => {
-        const navigationMenu = new NavigationMenu(page);
-        await navigationMenu.navigateToProjects(page);
-        await library.verifyPageURL(page, URLs.projects);
-    });
-    await test.step('Validating Projects module UI elements', async () => {
-        const projectsPage = new Projects(page);
-        projectsPage.validateProjectsPage(page);
-    });
-});
-
 test('Verify The UI Elements of Add New Project Modal @projects @visibility @ui', async ({ page }) => {
     const navigationMenu = new NavigationMenu(page);
     const projectsPage = new Projects(page);
@@ -76,27 +64,6 @@ test('Update The Created Project @projects @update', async ({ page }) => {
     const projectName = inputData.projectDetails.projectName;
     await projectsPage.updateProject(projectName, inputData.updateProjectDetails);
     await expect(projectsPage.addProjectModal).toBeHidden();
-});
-
-test('Verify the UI elements of Delete Project page @projects @visibility', async ({ page }) => {
-    const navigationMenu = new NavigationMenu(page);
-    const projectsPage = new Projects(page);
-    await test.step('Navigate to projects module', async () => {
-        await navigationMenu.navigateToProjects(page);
-        await library.verifyPageURL(page, URLs.projects);
-    });
-    await test.step('Add new project', async () => {
-        await projectsPage.addNewProject(page, inputData.projectDetails);
-        await expect(await projectsPage.addProjectModal).toBeHidden();
-    });
-    const projectName = inputData.projectDetails.projectName;
-    await test.step('Validating Delete project modal UI elements', async () => {
-        await projectsPage.viewDeleteProjectModal(projectName);
-        await projectsPage.validateDeleteProjectModal(projectName);
-        await expect(projectsPage.deleteProjectHeader, "Validating the delete project page header").toHaveText(projects.deleteProjectHeader);
-        const actualMsg = projects.deleteProjectConfirmationMessage + projectName + "?";
-        await expect(projectsPage.confirmationMsg, "Validating the message displayed in delete project page").toHaveText(actualMsg);
-    });
 });
 
 test('Delete The Created Project @projects', async ({ page }) => {

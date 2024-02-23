@@ -22,5 +22,9 @@
         "projects": "projects",
         "tasks": "tasks",
         "clients": "clients"
+    },
+    "activity": {
+        "header": "Add Activity",
+        "textMessage": "Please enter the activity information and click "
     }
 }

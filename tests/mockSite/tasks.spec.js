@@ -18,7 +18,7 @@ test.beforeEach("login to application", async ({ page }) => {
 
 test.describe("Testcases related to tasks @tasks", () => {
 
-    test.only("Verify the visibility of element in tasks creation page", async ({ page }) => {
+    test("Verify the visibility of element in tasks creation page", async ({ page }) => {
         const navigationMenu = new NavigationMenu(page);
         const projectsPage = new Projects(page);
 
@@ -32,9 +32,10 @@ test.describe("Testcases related to tasks @tasks", () => {
             await projectsPage.addNewProject(page, inputData.projectDetails);
             await projectsPage.sortClientsByDesc();
         });
-        await projectsPage.addNewProjectButton.click();
+        await projectsPage.projectNameCell.filter({ hasText: inputData.projectDetails.projectName }).click();
 
         const createTask = new Tasks(page);
+
         await expect.soft(createTask.editProjectButton).toBeVisible();
         await expect.soft(createTask.newHeader).toBeVisible();
         await expect.soft(createTask.inProgressHeader).toBeVisible();
@@ -42,8 +43,9 @@ test.describe("Testcases related to tasks @tasks", () => {
         await expect.soft(createTask.completedHeader).toBeVisible();
     });
 
-    test("Create a new task", async ({ page }) => {
+    test.only("Create a new task", async ({ page }) => {
 
+        const projectsPage = new Projects(page);
         await test.step("Navigate to projects", async () => {
             const navigationMenu = new NavigationMenu(page);
             await navigationMenu.navigateToProjects(page);
@@ -51,10 +53,11 @@ test.describe("Testcases related to tasks @tasks", () => {
         });
 
         await test.step("Create a project", async () => {
-            const projectsPage = new Projects(page);
             await projectsPage.addNewProject(page, inputData.projectDetails);
             await projectsPage.sortClientsByDesc();
         });
+
+        await projectsPage.projectNameCell.filter({ hasText: inputData.projectDetails.projectName }).click();
 
         await test.step("Add new task", async () => {
             const createTask = new Tasks(page);
@@ -196,6 +199,66 @@ test.describe("Testcases related to tasks @tasks", () => {
             await createTask.deleteTask();
             await createTask.okButtonIndelete();
             await expect(createTask.alltasksStatus.getByText(tasktitle)).toBeHidden();
+        });
+
+    });
+
+    test.only("Add activity UI elements visibility", async ({ page }) => {
+
+        const navigationMenu = new NavigationMenu(page);
+        const projectsPage = new Projects(page);
+        const createTask = new Tasks(page);
+        const projectName = 'Test_Activity13';
+
+        await test.step("Login to application", async () => {
+            await library.loginToTheApplication(page);
+        });
+
+        await test.step("Navigate to projects and create a new project", async () => {
+            await navigationMenu.navigateToProjects(page);
+            await expect(page).toHaveURL(process.env.BASEURL + 'projects');
+            await projectsPage.addNewProject(projectName);
+            await page.waitForLoadState();
+        });
+
+        await test.step("Add new task", async () => {
+            await createTask.createNewTask(projectName);
+            await expect(page.getByText(createTask.newTitle)).toBeVisible();
+        });
+
+        await test.step("Navigate to activity page and validate the elements visibility", async () => {
+            await createTask.activityPage(createTask.newTitle);
+            await createTask.validateActivityPage();
+        });
+    });
+
+    test.only("Add activity functionality for a new task", async ({ page }) => {
+
+        const navigationMenu = new NavigationMenu(page);
+        const projectsPage = new Projects(page);
+        const createTask = new Tasks(page);
+        let activityDetails = testData.createActivityDetails();
+        const projectName = 'Test_Activity14';
+
+        await test.step("Login to application", async () => {
+            await library.loginToTheApplication(page);
+        });
+
+        await test.step("Navigate to projects and create a new project", async () => {
+            await navigationMenu.navigateToProjects(page);
+            await expect(page).toHaveURL(process.env.BASEURL + 'projects');
+            await projectsPage.addNewProject(projectName);
+            await page.waitForLoadState();
+        });
+
+        await test.step("Add new task", async () => {
+            await createTask.createNewTask(projectName);
+            await expect(page.getByText(createTask.newTitle)).toBeVisible();
+        });
+
+        await test.step("Navigate to activity page and add activity for the created task", async () => {
+            await createTask.activityPage(createTask.newTitle);
+            await createTask.createActivity(activityDetails);
         });
 
     });

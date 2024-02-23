@@ -21,6 +21,16 @@ let testData = {
             }
         }
         return inputData;
+    },
+    createActivityDetails: () => {
+        let activity = {
+            billable: faker.number.int({ min: 1000, max: 5000 }).toString(),
+            nonBillable: faker.number.int({ min: 1000, max: 5000 }).toString(),
+            doubleRate: faker.number.int({ min: 100, max: 500 }).toString(),
+            description: faker.lorem.sentence(),
+            notes: faker.lorem.sentence(),
+        };
+        return activity;
     }
 }
 

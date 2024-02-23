@@ -49,13 +49,17 @@ class Tasks {
         this.hours = page.getByPlaceholder('Hours');
     }
 
-    async createNewTask() {
+    async createNewTask(projectName) {
+        await library.waitForLocatorVisiblity(this.createdColumnHeader);
+        await this.createdColumnHeader.click();
+        await this.createdColumnHeader.click();
+        const project = this.page.locator(`//a[text()= '${projectName}']`).click();
+        // await this.page.getByText('Test_Activity6').click();
         expect(this.page.url()).toContain(process.env.BASEURL + 'projects');
-        await expect(this.pageHeader).toContainText("Test");
+        await expect(this.pageHeader).toContainText(projectName);
         await this.addNewTask.click();
         await this.taskTitle.fill(this.newTitle);
         await this.page.keyboard.press('Enter');
-        return (this.newTitle);
     }
 
     async dragToDestination() {
@@ -85,6 +89,41 @@ class Tasks {
 
     async okButtonIndelete() {
         await this.okButton.click();
+    }
+
+
+
+    async activityPage(taskTitle) {
+
+        const dropdown = this.page.locator(`//div[@title = '${taskTitle}']/following-sibling::a/span`)
+        await dropdown.click();
+        await this.addActivity.click();
+
+    }
+    async validateActivityPage() {
+
+        await expect(this.activityPageHeader, "Validating activity page header").toHaveText(activity.header);
+        await expect(this.activityCloseButton, "Validating the close button in activity page").toBeVisible();
+        await expect(this.activityMsg, "Validating the message displayed in activity page").toContainText(activity.textMessage);
+        await expect(this.billable, "Validating billable field").toBeVisible();
+        await expect(this.nonBillable, "Validating non-billable field").toBeVisible();
+        await expect(this.doubleRate, "Validating the double rate field").toBeVisible();
+        await expect(this.description, "Validating the description field").toBeVisible();
+        await expect(this.notes, "Validating the notes field").toBeVisible();
+        await expect(this.activityOkButton, "Validating the activity page ok button").toBeVisible();
+        await expect(this.activityCancelButton, "Validating the activity page cancel button").toBeVisible();
+
+    }
+    async createActivity(activityDetails) {
+
+        await expect(this.activityPageHeader, "Validating activity page header").toHaveText(activity.header);
+        await this.billable.fill(activityDetails.billable);
+        await this.nonBillable.fill(activityDetails.nonBillable);
+        await this.doubleRate.fill(activityDetails.doubleRate);
+        await this.description.fill(activityDetails.description);
+        await this.notes.fill(activityDetails.description);
+        await this.activityOkButton.click();
+
     }
 }
 

@@ -9,8 +9,12 @@ let inputData = {
     ...testData.updateProjectDetails()
 };
 
-test.beforeEach('Login to the Application', async ({ page }) => {
+test.beforeEach('Login To The Application', async ({ page }) => {
     await library.loginToTheApplication(page);
+});
+
+test.afterEach('Login Out Of The Application', async ({ page }) => {
+    await library.logOutOfTheApplication(page);
 });
 
 test('Navigation to projects menu @projects', async ({ page }) => {
@@ -20,13 +24,11 @@ test('Navigation to projects menu @projects', async ({ page }) => {
 });
 
 test('Check the UI elements in Projects page @projects @visibility @ui', async ({ page }) => {
-
     await test.step('Navigate to projects module', async () => {
         const navigationMenu = new NavigationMenu(page);
         await navigationMenu.navigateToProjects(page);
         await library.verifyPageURL(page, URLs.projects);
     });
-
     await test.step('Validating Projects module UI elements', async () => {
         const projectsPage = new Projects(page);
         projectsPage.validateProjectsPage(page);
@@ -34,7 +36,6 @@ test('Check the UI elements in Projects page @projects @visibility @ui', async (
 });
 
 test('Verify The UI Elements of Add New Project Modal @projects @visibility @ui', async ({ page }) => {
-
     const navigationMenu = new NavigationMenu(page);
     const projectsPage = new Projects(page);
     await test.step('Navigate To Projects module', async () => {
@@ -45,7 +46,7 @@ test('Verify The UI Elements of Add New Project Modal @projects @visibility @ui'
         await projectsPage.addNewProjectButton.click();
     });
     await test.step('Validating Add New Project Modal UI Elements', async () => {
-        await projectsPage.addNewProject(page, inputData.projectDetails);
+        await projectsPage.validateAddNewProjectModal();
         await expect(await projectsPage.addProjectModal).toBeHidden();
     });
 });
@@ -61,7 +62,7 @@ test('Verify Add New Project @projects', async ({ page }) => {
     await expect(projectsPage.addProjectModal).toBeHidden();
 });
 
-test('Edit the created project @projects', async ({ page }) => {
+test('Update The Created Project @projects @update', async ({ page }) => {
     const navigationMenu = new NavigationMenu(page);
     const projectsPage = new Projects(page);
     await test.step('Navigate to Projects Module', async () => {
@@ -69,7 +70,7 @@ test('Edit the created project @projects', async ({ page }) => {
         await library.verifyPageURL(page, URLs.projects);
     });
     await test.step('Add New Project', async () => {
-        await projectsPage.addNewProject(inputData.projectDetails);
+        await projectsPage.addNewProject(page, inputData.projectDetails);
         await expect(await projectsPage.addProjectModal).toBeHidden();
     });
     const projectName = inputData.projectDetails.projectName;
@@ -98,25 +99,20 @@ test('Verify the UI elements of Delete Project page @projects @visibility', asyn
     });
 });
 
-test('Delete project @projects', async ({ page }) => {
-
+test('Delete The Created Project @projects', async ({ page }) => {
     const navigationMenu = new NavigationMenu(page);
     const projectsPage = new Projects(page);
     const projectName = inputData.projectDetails.projectName;
-
     await test.step('Login to application and navigate to projects', async () => {
         await library.loginToTheApplication(page);
         await navigationMenu.navigateToProjects(page);
         await expect(page).toHaveURL(process.env.BASEURL + 'projects');
     });
-
-    await test.step('Add new project', async () => {
+    await test.step('Add A New Project project', async () => {
         await projectsPage.addNewProject(page, inputData.projectDetails);
         await expect(await projectsPage.addProjectModal).toBeHidden();
     });
-
     await test.step('Delete the created project', async () => {
-
         await projectsPage.deleteProject(projectName);
         await projectsPage.validateDeletedProject(projectName);
     });

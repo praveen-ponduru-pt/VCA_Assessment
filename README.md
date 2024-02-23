@@ -1,12 +1,9 @@
 # VCA_Assessment
 
-# Install playwright using npm
+# Install playwright dependencies using npm
 
-npm init playwright@latest
-
+npm install && npx playwright install
 
 # How to run automation scripts locally
 
 npx playwright test
-
-# Install Faker

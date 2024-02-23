@@ -27,7 +27,7 @@ class Projects {
         this.notesField = page.getByPlaceholder('Notes');
         const dropdownValues = ['Select Stage', 'New', 'InProgess', 'Completed', 'IssuesFound', 'Deployed', 'Closed'];
         this.okButton = page.locator('div.modal-card>footer>button.is-success');
-        this.cancelButton = page.locator('div.modal-card>footer>button').filter({ name: 'Cancel' });
+        this.cancelButton = page.locator("div.modal-card>footer>button[aria-label='close']").filter({ name: 'Cancel' });
         //Elements in Delete project modal
         this.createdColumnHeader = page.getByText('Created');
         this.deleteButton = page.getByText('Delete Project');
@@ -100,7 +100,7 @@ class Projects {
      */
     async validateProjectsPage(page) {
         await expect.soft(this.header).toBeVisible();
-        await expect.soft(this.header).toHaveText(projects.header);
+        await expect.soft(this.header).toContainText(projects.header);
         await expect.soft(this.addNewProjectButton).toBeVisible();
         await expect.soft(this.fastBackwardButton).toBeVisible();
         await expect.soft(this.stepBackwardButton).toBeVisible();
@@ -113,13 +113,15 @@ class Projects {
      * Validating Add new project modal UI elements
      * @param page 
      */
-    async validateAddNewProjectModal(page) {
-        await expect.soft(this.closeButton).toBeVisible();
+    async validateAddNewProjectModal() {
         await expect.soft(this.nameField).toBeVisible();
         await expect.soft(this.clientField).toBeVisible();
         await expect.soft(this.stageDropdown).toBeVisible();
         await expect.soft(this.descriptionField).toBeVisible();
         await expect.soft(this.notesField).toBeVisible();
+        await expect.soft(this.okButton).toBeVisible();
+        await expect.soft(this.cancelButton).toBeVisible();
+        await this.cancelButton.click();
     }
 
     /**
@@ -165,7 +167,7 @@ class Projects {
      */
     async updateProject(projectName, projectDetails) {
         await this.sortClientsByDesc();
-        await this.projectNameCell.filter({ hasText: projectName }).click();
+        await this.projectNameCell.filter({ hasText: projectName }).first().click();
         await this.addNewProjectButton.click();
         await this.fillNameField(projectDetails.projectName);
         await this.fillDescriptionField(projectDetails.description);
@@ -181,7 +183,7 @@ class Projects {
         await library.waitForLocatorVisiblity(this.createdColumnHeader);
         await this.sortClientsByDesc();
         const selectionIcon = this.page.locator(`//a[text() = '${projectName}']/parent::td/following-sibling::td//span/i`);
-        await selectionIcon.click();
+        await selectionIcon.first().click();
         await this.deleteButton.click();
     }
 

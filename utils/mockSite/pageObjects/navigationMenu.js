@@ -6,6 +6,7 @@ class NavigationMenu {
         this.page = page;
         this.projectsMenu = page.locator('div.column').getByRole('link', { name: 'Projects' });
         this.clientsMenu = page.locator('div.column').getByRole('link', { name: 'Clients' });
+        this.logOutLink = page.getByRole('link', { name: 'Logout' });
     }
 
     /**

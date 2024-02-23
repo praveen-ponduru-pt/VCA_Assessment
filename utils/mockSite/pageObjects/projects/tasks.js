@@ -69,12 +69,12 @@ class Tasks {
      * @param {projectName} projectName 
      * @param {taskDetails} taskDetails 
      */
-    async createNewTask(projectName, taskDetails) {
+    async createNewTask(projectName, taskName) {
         await library.waitForLocatorVisiblity(this.pageHeader);
         expect(this.page.url()).toContain(process.env.BASEURL + 'projects');
         await expect.soft(this.pageHeader).toContainText(projectName);
         await this.addNewTask.click();
-        await this.taskTitle.fill(taskDetails.taskName);
+        await this.taskTitle.fill(taskName);
         await this.page.keyboard.press('Enter');
     }
 

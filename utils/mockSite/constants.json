@@ -14,7 +14,9 @@
         "emptyString": ""
     },
     "projects": {
-        "header": "Projects"
+        "header": "Projects",
+        "deleteProjectHeader": "Delete Project",
+        "deleteProjectConfirmationMessage": "Are you sure you want to delete project "
     },
     "URLs": {
         "projects": "projects",

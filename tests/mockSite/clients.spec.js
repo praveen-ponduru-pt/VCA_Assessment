@@ -13,5 +13,6 @@ test('navigate to Clients Page', async ({ page }) => {
     await library.loginToTheApplication(page);
     await navigationMenu.navigateToClients(page);
 
-    let random = await library.getARandomClient(page);
+    let random = await clientsPage.getARandomClient(page);
+    console.log(random);
 });

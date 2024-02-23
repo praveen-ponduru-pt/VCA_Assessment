@@ -41,5 +41,4 @@ let testData = {
         return activity;
     }
 }
-
 export { testData };

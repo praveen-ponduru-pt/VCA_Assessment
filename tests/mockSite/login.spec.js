@@ -3,34 +3,28 @@ import { library } from '../../utils/mockSite/library/library';
 import { LoginPage } from '../../utils/mockSite/pageObjects/loginPage';
 import { login, credentials } from '../../utils/mockSite/constants.json'
 
-test('Login to the Application @login', async ({ page }) => {
+test.describe("Valid Login Functionality Scenarios @login @validLogins", async () => {
 
-    await library.loginToTheApplication(page);
-});
+    test('Login to the Application @login', async ({ page }) => {
+        await library.loginToTheApplication(page);
+    });
 
-test('Check The Visibility Of All The Fields @login @visibility', async ({ page }) => {
-
-    await library.navigateToTheApplication(page);
-
-    const loginPage = new LoginPage(page);
-    await expect.soft(loginPage.header).toBeVisible();
-    await expect.soft(loginPage.header).toHaveText(login.header);
-
-    await expect.soft(loginPage.subtitle).toBeVisible();
-    await expect.soft(loginPage.subtitle).toHaveText(login.subtitle);
-
-    await expect.soft(loginPage.emailAddress).toBeVisible();
-    await expect.soft(loginPage.password).toBeVisible();
-    await expect.soft(loginPage.rememberMeCheckbox).toBeVisible();
-    await expect.soft(loginPage.loginButton).toBeVisible();
+    test('Check The Visibility Of All The Fields @login @visibility', async ({ page }) => {
+        await library.navigateToTheApplication(page);
+        const loginPage = new LoginPage(page);
+        await expect.soft(loginPage.header).toHaveText(login.header);
+        await expect.soft(loginPage.subtitle).toHaveText(login.subtitle);
+        await expect.soft(loginPage.emailAddress).toBeVisible();
+        await expect.soft(loginPage.password).toBeVisible();
+        await expect.soft(loginPage.rememberMeCheckbox).toBeVisible();
+        await expect.soft(loginPage.loginButton).toBeVisible();
+    });
 });
 
 test.describe("Invalid Login Functionality Scenarios @login @invalidLogins", async () => {
 
     test('Login With Invalid Credentials', async ({ page }) => {
-
         const loginPage = new LoginPage(page);
-
         await library.navigateToTheApplication(page, loginPage.header);
         await expect.soft(loginPage.header, "Validating login page header").toHaveText(login.header);
         await loginPage.login(credentials.incorrectEmail, credentials.incorrectPassword);
@@ -38,9 +32,7 @@ test.describe("Invalid Login Functionality Scenarios @login @invalidLogins", asy
     });
 
     test('Login With Invalid Username', async ({ page }) => {
-
         const loginPage = new LoginPage(page);
-
         await library.navigateToTheApplication(page, loginPage.header);
         await expect.soft(loginPage.header, "Validating login page header").toHaveText(login.header);
         await loginPage.login(credentials.invalidEmailAddress, credentials.incorrectPassword);
@@ -48,9 +40,7 @@ test.describe("Invalid Login Functionality Scenarios @login @invalidLogins", asy
     });
 
     test('Login with username field as empty', async ({ page }) => {
-
         const loginPage = new LoginPage(page);
-
         await library.navigateToTheApplication(page, loginPage.header);
         await expect.soft(loginPage.header, "Validating login page header").toHaveText(login.header);
         await loginPage.login(credentials.emptyString, credentials.incorrectPassword);
@@ -58,9 +48,7 @@ test.describe("Invalid Login Functionality Scenarios @login @invalidLogins", asy
     });
 
     test('Login with password field as empty', async ({ page }) => {
-
         const loginPage = new LoginPage(page);
-
         await library.navigateToTheApplication(page, loginPage.header);
         await expect.soft(loginPage.header, "Validating login page header").toHaveText(login.header);
         await loginPage.login(credentials.incorrectEmail, credentials.emptyString);

@@ -21,21 +21,16 @@ test.describe("Testcases Related To Tasks @tasks", () => {
     test("Verify the visibility of element in tasks creation page", async ({ page }) => {
         const navigationMenu = new NavigationMenu(page);
         const projectsPage = new Projects(page);
-
         await test.step("Navigate To Projects Module", async () => {
-
             await navigationMenu.navigateToProjects(page);
             await library.verifyPageURL(page, URLs.projects);
         });
-
         await test.step("Create a project", async () => {
             await projectsPage.addNewProject(page, inputData.projectDetails);
             await projectsPage.sortClientsByDesc();
         });
         await projectsPage.projectNameCell.filter({ hasText: inputData.projectDetails.projectName }).click();
-
         const createTask = new Tasks(page);
-
         await expect.soft(createTask.editProjectButton).toBeVisible();
         await expect.soft(createTask.newHeader).toBeVisible();
         await expect.soft(createTask.inProgressHeader).toBeVisible();
@@ -43,84 +38,68 @@ test.describe("Testcases Related To Tasks @tasks", () => {
         await expect.soft(createTask.completedHeader).toBeVisible();
     });
 
-    test.only("Create a new task", async ({ page }) => {
-
+    test("Create A New Task", async ({ page }) => {
         const projectsPage = new Projects(page);
-        await test.step("Navigate to Projects", async () => {
+        await test.step("Navigate To Projects Module", async () => {
             const navigationMenu = new NavigationMenu(page);
             await navigationMenu.navigateToProjects(page);
             await library.verifyPageURL(page, URLs.projects);
         });
-
-        await test.step("Create a project", async () => {
+        await test.step("Create A Project", async () => {
             await projectsPage.addNewProject(page, inputData.projectDetails);
             await projectsPage.sortClientsByDesc();
         });
-
         const projectName = inputData.projectDetails.projectName;
         await projectsPage.projectNameCell.filter({ hasText: projectName }).click();
-
-        await test.step("Add new task", async () => {
+        await test.step("Add A New Task", async () => {
             const createTask = new Tasks(page);
             await createTask.createNewTask(projectName, inputData.taskDetails);
-            await expect.soft(page.getByText(inputData.taskDetails.TaskName)).toBeVisible();
+            await expect.soft(page.getByText(inputData.taskDetails.taskName)).toBeVisible();
         });
     });
 
     test("Drag Tasks From New to Inprogress", async ({ page }) => {
-
         const projectsPage = new Projects(page);
         const createTask = new Tasks(page);
         const navigationMenu = new NavigationMenu(page);
-
-        await test.step("Navigate to Projects", async () => {
+        await test.step("Navigate to Projects Module", async () => {
             await navigationMenu.navigateToProjects(page);
             await library.verifyPageURL(page, URLs.projects);
         });
-
         await test.step("Create a project", async () => {
             await projectsPage.addNewProject(page, inputData.projectDetails);
             await projectsPage.sortClientsByDesc();
         });
-
         const projectName = inputData.projectDetails.projectName;
         await projectsPage.projectNameCell.filter({ hasText: projectName }).click();
-
         await test.step("Add new task", async () => {
-            await createTask.createNewTask(projectName);
-            await expect(page.getByText(createTask.newTitle)).toBeVisible();
+            await createTask.createNewTask(projectName, inputData.taskDetails);
+            await expect.soft(page.getByText(inputData.taskDetails.taskName)).toBeVisible();
         });
         await test.step("Drag And Drop A Task", async () => {
             await createTask.dragToDestination();
         });
     });
 
-    test("Visibility of elements in edit task", async ({ page }) => {
-
+    test("Visibility Of Elements In Edit Task", async ({ page }) => {
         const projectsPage = new Projects(page);
         const createTask = new Tasks(page);
         const navigationMenu = new NavigationMenu(page);
-
         await test.step("Navigate to Projects", async () => {
             await navigationMenu.navigateToProjects(page);
             await library.verifyPageURL(page, URLs.projects);
         });
-
-        await test.step("Create a project", async () => {
+        await test.step("Create A New Project", async () => {
             await projectsPage.addNewProject(page, inputData.projectDetails);
             await projectsPage.sortClientsByDesc();
         });
-
         const projectName = inputData.projectDetails.projectName;
         await projectsPage.projectNameCell.filter({ hasText: projectName }).click();
-
-        await test.step("Add new task", async () => {
-            await createTask.createNewTask(projectName);
-            await expect(page.getByText(createTask.newTitle)).toBeVisible();
+        await test.step("Add A New Task", async () => {
+            await createTask.createNewTask(projectName, inputData.taskDetails);
+            await expect.soft(page.getByText(inputData.taskDetails.taskName)).toBeVisible();
         });
-
-        await test.step("Visibility pf elements while editing the task", async () => {
-
+        await test.step("Visibility Of Elements While Editing The Task", async () => {
             await createTask.editTask();
             await expect.soft(createTask.editTaskHeader).toHaveText("Edit Task");
             await expect.soft(createTask.crossIcon).toBeVisible();
@@ -132,30 +111,24 @@ test.describe("Testcases Related To Tasks @tasks", () => {
         });
     });
 
-    test("Edit the task", async ({ page }) => {
-
+    test("Edit The Task", async ({ page }) => {
         const projectsPage = new Projects(page);
         const createTask = new Tasks(page);
         const navigationMenu = new NavigationMenu(page);
-
         await test.step("Navigate to Projects", async () => {
             await navigationMenu.navigateToProjects(page);
             await library.verifyPageURL(page, URLs.projects);
         });
-
         await test.step("Create a project", async () => {
             await projectsPage.addNewProject(page, inputData.projectDetails);
             await projectsPage.sortClientsByDesc();
         });
-
         const projectName = inputData.projectDetails.projectName;
         await projectsPage.projectNameCell.filter({ hasText: projectName }).click();
-
         await test.step("Add new task", async () => {
-            await createTask.createNewTask(projectName);
-            await expect(page.getByText(createTask.newTitle)).toBeVisible();
+            await createTask.createNewTask(projectName, inputData.taskDetails);
+            await expect.soft(page.getByText(inputData.taskDetails.taskName)).toBeVisible();
         });
-
         await test.step("Edit Task Details", async () => {
             await createTask.editTask();
             await createTask.fillDetailsInEditTask();
@@ -164,133 +137,104 @@ test.describe("Testcases Related To Tasks @tasks", () => {
     });
 
     test("Verify the visibility of UI elements in tasks deletion page", async ({ page }) => {
-
-
         const projectsPage = new Projects(page);
         const createTask = new Tasks(page);
         const navigationMenu = new NavigationMenu(page);
-
         await test.step("Navigate to Projects", async () => {
             await navigationMenu.navigateToProjects(page);
             await library.verifyPageURL(page, URLs.projects);
         });
-
         await test.step("Create a project", async () => {
             await projectsPage.addNewProject(page, inputData.projectDetails);
             await projectsPage.sortClientsByDesc();
         });
-
         const projectName = inputData.projectDetails.projectName;
         await projectsPage.projectNameCell.filter({ hasText: projectName }).click();
-
         await test.step("Add new task", async () => {
-            await createTask.createNewTask(projectName);
-            await expect(page.getByText(createTask.newTitle)).toBeVisible();
+            await createTask.createNewTask(projectName, inputData.taskDetails);
+            await expect.soft(page.getByText(inputData.taskDetails.taskName)).toBeVisible();
         });
-
         await test.step("Validate the visibility of UI elements in delete task", async () => {
             const tasktitle = createTask.newTitle;
-
             await createTask.deleteTask();
             await expect.soft(createTask.crossIcon).toBeVisible();
-            await expect.soft(createTask.deleteNotification).toHaveText(`Are you sure you want to delete client ${tasktitle} ?`);
+            await expect.soft(createTask.deleteNotification).toHaveText(`Are you sure you want to delete client ${inputData.taskDetails.taskName}?`);
             await expect.soft(createTask.okButton).toBeVisible();
             await expect.soft(createTask.cancelButton).toBeVisible();
         });
     });
 
-
     test("Delete a task @tasks", async ({ page }) => {
-
         const navigationMenu = new NavigationMenu(page);
         const projectsPage = new Projects(page);
         const createTask = new Tasks(page);
-
         await test.step("Navigate to Projects", async () => {
             await navigationMenu.navigateToProjects(page);
             await library.verifyPageURL(page, URLs.projects);
         });
-
         await test.step("Create a project", async () => {
             await projectsPage.addNewProject(page, inputData.projectDetails);
             await projectsPage.sortClientsByDesc();
         });
-
         const projectName = inputData.projectDetails.projectName;
         await projectsPage.projectNameCell.filter({ hasText: projectName }).click();
-
         await test.step("Add new task", async () => {
-            await createTask.createNewTask(projectName);
-            await expect(page.getByText(createTask.newTitle)).toBeVisible();
+            await createTask.createNewTask(projectName, inputData.taskDetails);
+            await expect.soft(page.getByText(inputData.taskDetails.taskName)).toBeVisible();
         });
         await test.step("Delete a task", async () => {
             await createTask.deleteTask();
-            await createTask.okButtonIndelete();
-            await expect(createTask.alltasksStatus.getByText(tasktitle)).toBeHidden();
+            await createTask.okButtonInDeleteModal();
+            await expect(createTask.alltasksStatus.getByText(inputData.taskDetails.taskName)).toBeHidden();
         });
-
     });
 
-    test("Add activity UI elements visibility", async ({ page }) => {
-
+    test.only("Add activity UI elements visibility", async ({ page }) => {
         const navigationMenu = new NavigationMenu(page);
         const projectsPage = new Projects(page);
         const createTask = new Tasks(page);
-
         await test.step("Navigate to Projects", async () => {
             await navigationMenu.navigateToProjects(page);
             await library.verifyPageURL(page, URLs.projects);
         });
-
         await test.step("Create a project", async () => {
             await projectsPage.addNewProject(page, inputData.projectDetails);
             await projectsPage.sortClientsByDesc();
         });
-
         const projectName = inputData.projectDetails.projectName;
         await projectsPage.projectNameCell.filter({ hasText: projectName }).click();
-
         await test.step("Add new task", async () => {
-            await createTask.createNewTask(projectName);
-            await expect(page.getByText(createTask.newTitle)).toBeVisible();
+            await createTask.createNewTask(projectName, inputData.taskDetails);
+            await expect(page.getByText(inputData.taskDetails.taskName)).toBeVisible();
         });
-
         await test.step("Navigate to activity page and validate the elements visibility", async () => {
-            await createTask.activityPage(createTask.newTitle);
+            await createTask.NavigateToActivityPage(inputData.taskDetails.taskName);
             await createTask.validateActivityPage();
         });
     });
 
     test("Add activity functionality for a new task", async ({ page }) => {
-
         const navigationMenu = new NavigationMenu(page);
         const projectsPage = new Projects(page);
         const createTask = new Tasks(page);
         let activityDetails = testData.createActivityDetails();
-
         await test.step("Navigate to Projects", async () => {
             await navigationMenu.navigateToProjects(page);
             await library.verifyPageURL(page, URLs.projects);
         });
-
         await test.step("Create a project", async () => {
             await projectsPage.addNewProject(page, inputData.projectDetails);
             await projectsPage.sortClientsByDesc();
         });
-
         const projectName = inputData.projectDetails.projectName;
         await projectsPage.projectNameCell.filter({ hasText: projectName }).click();
-
         await test.step("Add new task", async () => {
-            await createTask.createNewTask(projectName);
-            await expect(page.getByText(createTask.newTitle)).toBeVisible();
+            await createTask.createNewTask(projectName, inputData.taskDetails);
+            await expect.soft(page.getByText(inputData.taskDetails.taskName)).toBeVisible();
         });
-
         await test.step("Navigate to activity page and add activity for the created task", async () => {
-            await createTask.activityPage(createTask.newTitle);
+            await createTask.NavigateToActivityPage(inputData.taskDetails.taskName);
             await createTask.createActivity(activityDetails);
         });
-
     });
-
 })

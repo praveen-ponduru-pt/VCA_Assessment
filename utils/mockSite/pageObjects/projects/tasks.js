@@ -4,7 +4,7 @@ import { activity } from '../../constants.json'
 
 class Tasks {
     constructor(page) {
-        //Specific project page elements
+        //Elements in Projects page
         this.page = page;
         this.pageHeader = page.locator("h1.title");
         this.editProjectButton = page.getByText("Edit Project");
@@ -12,7 +12,7 @@ class Tasks {
         this.inProgressHeader = page.locator("//p[text() = 'InProgress']");
         this.issuesFoundHeader = page.locator("//p[text() = 'IssuesFound']");
         this.completedHeader = page.locator("//p[text() = 'Completed']");
-        //Add new task elements
+        //Elements related to New Task
         this.addNewTask = page.getByRole('button', { name: 'Add New Task' });
         this.taskTitle = page.getByPlaceholder('Title');
         const Title = Math.random().toString(36).substring(2, 7);
@@ -49,7 +49,7 @@ class Tasks {
         this.startDate = page.getByPlaceholder("Start Date");
         this.dueDate = page.getByPlaceholder("Due Date");
         this.hours = page.getByPlaceholder('Hours');
-        //activity
+        //Elements in Activity modal
         this.createdColumnHeader = page.getByText('Created');
         this.addActivity = page.getByText('Add Activity');
         this.activityPageHeader = page.locator('p.modal-card-title');
@@ -65,27 +65,28 @@ class Tasks {
     }
 
     /**
-     * This method is used to create a new task for a project
-     * @param projectName 
+     * Creating a new task for a project
+     * @param {projectName} projectName 
+     * @param {taskDetails} taskDetails 
      */
-    async createNewTask(projectName, taskname) {
+    async createNewTask(projectName, taskDetails) {
         await library.waitForLocatorVisiblity(this.pageHeader);
         expect(this.page.url()).toContain(process.env.BASEURL + 'projects');
         await expect.soft(this.pageHeader).toContainText(projectName);
         await this.addNewTask.click();
-        await this.taskTitle.fill(taskname.taskName);
+        await this.taskTitle.fill(taskDetails.taskName);
         await this.page.keyboard.press('Enter');
     }
 
     /**
-     * This method is to drag an element from source locator to target locator
+     * Dragging an element from source locator to target locator
      */
     async dragToDestination() {
         await this.dragFrom.dragTo(this.inProgressTasks);
     }
 
     /**
-     * This method is used to create a new task for a project
+     * Updating a task in a project
      * @param projectName 
      */
     async editTask() {
@@ -93,7 +94,9 @@ class Tasks {
         await this.editTaskOption.click();
     }
 
-
+    /**
+     * Filling all the fields in edit task modal
+     */
     async fillDetailsInEditTask() {
         await this.taskTitle.fill(this.editedTitle);
         await this.descriptionField.fill("Testing Description");
@@ -105,24 +108,35 @@ class Tasks {
         await this.okButton.click();
     }
 
+    /**
+     * Deleting a task in a project
+     */
     async deleteTask() {
         await this.dropdownIcon.click();
         await this.deleteOption.click();
     }
 
-    async okButtonIndelete() {
+    /**
+     * Clicking Ok button in Delete Modal
+     */
+    async okButtonInDeleteModal() {
         await this.okButton.click();
     }
 
-    async activityPage(taskTitle) {
-
+    /**
+     * Navigating to Activity page
+     * @param {taskTitle} taskTitle 
+     */
+    async NavigateToActivityPage(taskTitle) {
         const dropdown = this.page.locator(`//div[@title = '${taskTitle}']/following-sibling::a/span`)
         await dropdown.click();
         await this.addActivity.click();
-
     }
-    async validateActivityPage() {
 
+    /**
+     * Validating Activity page elements
+     */
+    async validateActivityPage() {
         await expect(this.activityPageHeader, "Validating activity page header").toHaveText(activity.header);
         await expect(this.activityCloseButton, "Validating the close button in activity page").toBeVisible();
         await expect(this.activityMsg, "Validating the message displayed in activity page").toContainText(activity.textMessage);
@@ -133,10 +147,13 @@ class Tasks {
         await expect(this.notes, "Validating the notes field").toBeVisible();
         await expect(this.activityOkButton, "Validating the activity page ok button").toBeVisible();
         await expect(this.activityCancelButton, "Validating the activity page cancel button").toBeVisible();
-
     }
-    async createActivity(activityDetails) {
 
+    /**
+     * Creating a new activity
+     * @param {ActivityDetails} activityDetails 
+     */
+    async createActivity(activityDetails) {
         await expect(this.activityPageHeader, "Validating activity page header").toHaveText(activity.header);
         await this.billable.fill(activityDetails.billable);
         await this.nonBillable.fill(activityDetails.nonBillable);
@@ -144,8 +161,6 @@ class Tasks {
         await this.description.fill(activityDetails.description);
         await this.notes.fill(activityDetails.description);
         await this.activityOkButton.click();
-
     }
 }
-
 export { Tasks };

@@ -43,7 +43,7 @@ test.describe("Testcases related to tasks @tasks", () => {
         await expect.soft(createTask.completedHeader).toBeVisible();
     });
 
-    test.only("Create a new task", async ({ page }) => {
+    test("Create a new task", async ({ page }) => {
 
         const projectsPage = new Projects(page);
         await test.step("Navigate to projects", async () => {
@@ -203,7 +203,7 @@ test.describe("Testcases related to tasks @tasks", () => {
 
     });
 
-    test.only("Add activity UI elements visibility", async ({ page }) => {
+    test("Add activity UI elements visibility", async ({ page }) => {
 
         const navigationMenu = new NavigationMenu(page);
         const projectsPage = new Projects(page);
@@ -232,7 +232,7 @@ test.describe("Testcases related to tasks @tasks", () => {
         });
     });
 
-    test.only("Add activity functionality for a new task", async ({ page }) => {
+    test("Add activity functionality for a new task", async ({ page }) => {
 
         const navigationMenu = new NavigationMenu(page);
         const projectsPage = new Projects(page);

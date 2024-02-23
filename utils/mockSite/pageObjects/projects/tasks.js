@@ -47,6 +47,19 @@ class Tasks {
         this.startDate = page.getByPlaceholder("Start Date");
         this.dueDate = page.getByPlaceholder("Due Date");
         this.hours = page.getByPlaceholder('Hours');
+        //activity
+        this.createdColumnHeader = page.getByText('Created');
+        this.addActivity = page.getByText('Add Activity');
+        this.activityPageHeader = page.locator('p.modal-card-title');
+        this.activityCloseButton = page.getByRole('banner').getByLabel('close');
+        this.activityMsg = page.locator('p[classname = "subtitle has-text-grey"]');
+        this.billable = page.getByPlaceholder('Billable', { exact: true });
+        this.nonBillable = page.getByPlaceholder('Non-Billable');
+        this.doubleRate = page.getByPlaceholder('Double Rate');
+        this.description = page.getByPlaceholder('Description');
+        this.notes = page.getByPlaceholder('Notes');
+        this.activityOkButton = page.getByRole('button', { name: ' OK' });
+        this.activityCancelButton = page.getByRole('contentinfo').getByLabel('close');
     }
 
     async createNewTask(projectName) {

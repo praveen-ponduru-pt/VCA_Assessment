@@ -59,7 +59,7 @@ test('Verify the UI elements of Add New Project modal @projects @visibility @ui'
 
 });
 
-test('Verify Add New Project @projects', async ({ page }) => {
+test.only('Verify Add New Project @projects', async ({ page }) => {
 
     const navigationMenu = new NavigationMenu(page);
     const projectsPage = new Projects(page);

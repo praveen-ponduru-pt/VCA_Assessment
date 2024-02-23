@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { library } from '../utils/library/library';
-import { NavigationMenu } from '../utils/pageObjects/navigationMenu';
-import { Projects } from '../utils/pageObjects/projects/projects';
-import { Clients } from '../utils/pageObjects/clients/clients';
-import { projects, URLs } from '../utils/constants.json';
-import { testData } from '../utils/data/testData';
+import { library } from '../../utils/mockSite/library/library';
+import { NavigationMenu } from '../../utils/mockSite/pageObjects/navigationMenu';
+import { Projects } from '../../utils/mockSite/pageObjects/projects/projects';
+import { Clients } from '../../utils/mockSite/pageObjects/clients/clients';
+import { projects, URLs } from '../../utils/mockSite/constants.json';
+import { testData } from '../../utils/mockSite/data/testData';
 let inputData = {
     ...testData.projectDetails(),
     ...testData.updateProjectDetails()
@@ -79,7 +79,7 @@ test('Verify Add New Project @projects', async ({ page }) => {
     await expect(projectsPage.addProjectModal).toBeHidden();
 });
 
-test.only('Edit the created project @projects', async ({ page }) => {
+test('Edit the created project @projects', async ({ page }) => {
 
     const navigationMenu = new NavigationMenu(page);
     await library.loginToTheApplication(page);

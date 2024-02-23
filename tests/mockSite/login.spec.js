@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { library } from '../utils/library/library';
-import { LoginPage } from '../utils/pageObjects/loginPage';
-import { login, credentials } from '../utils/constants.json'
+import { library } from '../../utils/mockSite/library/library';
+import { LoginPage } from '../../utils/mockSite/pageObjects/loginPage';
+import { login, credentials } from '../../utils/mockSite/constants.json'
 
 test('Login to the Application @login', async ({ page }) => {
 

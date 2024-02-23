@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { library } from '../utils/library/library';
-import { NavigationMenu } from '../utils/pageObjects/navigationMenu';
-import { Projects } from '../utils/pageObjects/projects/projects';
-import { Tasks } from '../utils/pageObjects/projects/tasks';
+import { library } from '../../utils/mockSite/library/library';
+import { NavigationMenu } from '../../utils/mockSite/pageObjects/navigationMenu';
+import { Projects } from '../../utils/mockSite/pageObjects/projects/projects';
+import { Tasks } from '../../utils/mockSite/pageObjects/projects/tasks';
 
 test.describe("Login to new task creation", () => {
 

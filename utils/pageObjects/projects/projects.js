@@ -1,6 +1,7 @@
 import { expect } from "playwright/test";
 import { library } from "../../library/library";
 import { Clients } from "../clients/clients";
+import { NavigationMenu } from "../navigationMenu";
 
 class Projects {
     constructor(page) {
@@ -69,10 +70,7 @@ class Projects {
         await this.notesField.fill(notes);
     }
 
-    async addNewProject(page, projectDetails) {
-
-        let clientName = await library.getARandomClient(page);
-        console.log(clientName);
+    async addNewProject(page, projectDetails, clientName) {
 
         await this.addNewProjectButton.click();
         await this.fillNameField(projectDetails.projectName);
@@ -83,7 +81,7 @@ class Projects {
         await this.okButton.click();
     }
 
-    async updateProject(page, projectDetails) {
+    async updateProject(page, projectDetails, clientName) {
 
         await this.addNewProjectButton.click();
         await this.fillNameField(projectDetails.projectName);

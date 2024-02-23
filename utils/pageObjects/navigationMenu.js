@@ -22,8 +22,6 @@ class NavigationMenu {
         await this.clientsMenu.click();
         const clientsPage = new Clients(page);
 
-        await clientsPage.getClientsList(page);
-
         await clientsPage.waitUntilClientsPageIsLoaded();
     }
 }

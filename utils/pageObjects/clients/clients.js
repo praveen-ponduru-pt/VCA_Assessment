@@ -31,6 +31,17 @@ class Clients {
     }
 
 
+    async getARandomClient(page) {
+
+        const clients = await this.getClientsList(page);
+        console.log(clients);
+
+        let randomNumber = await library.randomInteger(0, clients.length)
+        console.log(randomNumber);
+        console.log(clients[randomNumber]);
+        return clients[randomNumber];
+    }
+
 }
 
 export { Clients };

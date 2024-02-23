@@ -58,16 +58,6 @@ const library = {
         return Math.round(rand);
     },
 
-    async getARandomClient(page) {
-
-        const clientsPage = new Clients(page);
-        const clients = await clientsPage.getClientsList(page);
-        console.log(clients);
-        let randomNumber = await this.randomInteger(0, clients.length)
-        console.log(randomNumber);
-        console.log(clients[randomNumber]);
-        return clients[randomNumber];
-    }
 }
 
 export { library };

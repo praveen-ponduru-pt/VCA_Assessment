@@ -1,6 +1,5 @@
 import { LoginPage } from "../pageObjects/loginPage"
 import { expect } from "playwright/test";
-import { Clients } from "../pageObjects/clients/clients";
 
 const library = {
 
@@ -31,20 +30,6 @@ const library = {
         await locator.waitFor({ state: 'visible' });
     },
 
-    // async waitUntilLoaderIsHidden(page) {
-
-    //     await page.waitForSelector('iframe.snapshot-visible');
-
-    //     // Get the frame element handle
-    //     const frameHandle = await page.waitForSelector('iframe.snapshot-visible');
-
-    //     // Wait for the frame to load
-    //     const frame = await frameHandle.contentFrame();
-
-    //     // Wait for the element with class 'is-loading' to become hidden inside the frame
-    //     await frame.waitForSelector('.is-loading', { state: 'hidden' });
-    // },
-
     async verifyPageURL(page, menu) {
 
         const baseURL = process.env.BASEURL;
@@ -53,7 +38,6 @@ const library = {
 
     async randomInteger(min, max) {
 
-        // now rand is from  (min-0.5) to (max+0.5)
         let rand = min - 0.5 + Math.random() * (max - min + 1);
         return Math.round(rand);
     },

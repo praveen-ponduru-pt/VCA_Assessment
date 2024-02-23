@@ -19,7 +19,7 @@ dotenv.config({
 module.exports = defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   timeout: 120000,
 
   /* Fail the build on CI if you accidentally left test.only in the source code. */

@@ -11,6 +11,16 @@ let testData = {
             }
         }
         return inputData;
+    },
+    updateProjectDetails: () => {
+        let inputData = {
+            updateProjectDetails: {
+                projectName: faker.commerce.productName(),
+                description: faker.lorem.sentence(),
+                notes: faker.lorem.sentence()
+            }
+        }
+        return inputData;
     }
 }
 

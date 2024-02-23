@@ -6,7 +6,8 @@ import { Clients } from '../utils/pageObjects/clients/clients';
 import { projects, URLs } from '../utils/constants.json';
 import { testData } from '../utils/data/testData';
 let inputData = {
-    ...testData.projectDetails()
+    ...testData.projectDetails(),
+    ...testData.updateProjectDetails()
 };
 
 test('Navigation to projects menu @projects', async ({ page }) => {
@@ -69,32 +70,29 @@ test('Verify Add New Project @projects', async ({ page }) => {
     const navigationMenu = new NavigationMenu(page);
     await library.loginToTheApplication(page);
 
-    const clientPage = new Clients(page);
     const projectsPage = new Projects(page);
-
-    await navigationMenu.navigateToClients(page);
-    await library.verifyPageURL(page, URLs.clients);
-    const clientName = await clientPage.getARandomClient(page);
-    console.log(clientName);
 
     await navigationMenu.navigateToProjects(page);
     await library.verifyPageURL(page, URLs.projects);
 
-    await projectsPage.addNewProject(page, inputData.projectDetails, clientName);
+    await projectsPage.addNewProject(page, inputData.projectDetails);
     await expect(projectsPage.addProjectModal).toBeHidden();
 });
 
 test.only('Edit the created project @projects', async ({ page }) => {
 
-    await navigationMenu.navigateToClients(page);
-    await library.verifyPageURL(page, URLs.clients);
-    const clientName = await clientPage.getARandomClient(page);
-    console.log(clientName);
+    const navigationMenu = new NavigationMenu(page);
+    await library.loginToTheApplication(page);
+
+    const projectsPage = new Projects(page);
 
     await navigationMenu.navigateToProjects(page);
     await library.verifyPageURL(page, URLs.projects);
 
-    await projectsPage.addNewProject(page, inputData.projectDetails, clientName);
+    await projectsPage.addNewProject(page, inputData.projectDetails);
     await expect(projectsPage.addProjectModal).toBeHidden();
 
+    const projectName = inputData.projectDetails.projectName;
+    await projectsPage.updateProject(projectName, inputData.updateProjectDetails);
+    await expect(projectsPage.addProjectModal).toBeHidden();
 });

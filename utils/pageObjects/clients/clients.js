@@ -1,4 +1,5 @@
 import { library } from "../../library/library";
+import { NavigationMenu } from "../navigationMenu";
 
 class Clients {
     constructor(page) {
@@ -14,8 +15,8 @@ class Clients {
 
     async getClientsList(page) {
 
-        // Wait for the table to appear on the page
-        // await page.waitForSelector();
+        const navigationMenu = new NavigationMenu(page);
+        await navigationMenu.navigateToClients(page);
 
         // Extract all cells from the first column of the table
         const cells = await page.$$('table tr td:first-child');
@@ -26,7 +27,6 @@ class Clients {
             const text = await cell.textContent();
             values.push(text.trim());
         }
-        console.log(values);
         return values;
     }
 
@@ -36,9 +36,7 @@ class Clients {
         const clients = await this.getClientsList(page);
         console.log(clients);
 
-        let randomNumber = await library.randomInteger(0, clients.length)
-        console.log(randomNumber);
-        console.log(clients[randomNumber]);
+        let randomNumber = await library.randomInteger(0, clients.length);
         return clients[randomNumber];
     }
 

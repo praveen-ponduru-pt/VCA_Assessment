@@ -13,6 +13,8 @@ class Projects {
         this.fastForwardButton = page.locator('div.buttons>button>span>span>i.fa-fast-forward');
         this.stepForwardButton = page.locator('div.buttons>button>span>span>i.fa-step-forward');
         this.table = page.locator('table');
+        this.createdColumnHeader = page.locator('table>thead>tr>th:nth-child(4)');
+        this.projectNameCell = page.locator('tbody>tr>td:nth-child(2)');
 
         this.addProjectModal = page.locator('div.modal>div.modal-card');
         this.addProjectHeader = page.locator('div.modal>div>header>p');
@@ -70,23 +72,35 @@ class Projects {
         await this.notesField.fill(notes);
     }
 
-    async addNewProject(page, projectDetails, clientName) {
+    async addNewProject(page, projectDetails) {
 
+        const navigationMenu = new NavigationMenu(page);
+        const clientPage = new Clients(page);
+        await navigationMenu.navigateToClients(page);
+
+        const clientName = await clientPage.getARandomClient(page);
+        console.log(clientName);
+
+        await navigationMenu.navigateToProjects(page);
         await this.addNewProjectButton.click();
         await this.fillNameField(projectDetails.projectName);
         await this.fillClientField(clientName);
         await this.clientDropdownMenu.click();
-        await this.descriptionField.fill(projectDetails.description);
-        await this.notesField.fill(projectDetails.notes);
+        await this.fillDescriptionField(projectDetails.description);
+        await this.fillNotesField(projectDetails.notes);
         await this.okButton.click();
     }
 
-    async updateProject(page, projectDetails, clientName) {
+    async updateProject(projectName, projectDetails) {
+
+        await this.createdColumnHeader.click();
+        await this.createdColumnHeader.click();
+        await this.projectNameCell.filter({ hasText: projectName }).click();
 
         await this.addNewProjectButton.click();
         await this.fillNameField(projectDetails.projectName);
-        await this.fillClientField(clientName);
-        await this.clientDropdownMenu.click();
+        await this.fillDescriptionField(projectDetails.description);
+        await this.fillNotesField(projectDetails.notes);
         await this.okButton.click();
     }
 }

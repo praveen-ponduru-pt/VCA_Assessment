@@ -30,7 +30,7 @@ test('Check the UI elements in Projects page @projects @visibility @ui', async (
         await library.verifyPageURL(page, URLs.projects);
     });
 
-    await test.step('Validating Projects module UI elements', async ({ page }) => {
+    await test.step('Validating Projects module UI elements', async ({ }) => {
         const projectsPage = new Projects(page);
         projectsPage.validateProjectsPage(page);
     });
@@ -59,7 +59,7 @@ test('Verify the UI elements of Add New Project modal @projects @visibility @ui'
 
 });
 
-test.only('Verify Add New Project @projects', async ({ page }) => {
+test('Verify Add New Project @projects', async ({ page }) => {
 
     const navigationMenu = new NavigationMenu(page);
     const projectsPage = new Projects(page);
@@ -67,11 +67,6 @@ test.only('Verify Add New Project @projects', async ({ page }) => {
     await test.step('Navigate to projects module', async () => {
         await navigationMenu.navigateToProjects(page);
         await library.verifyPageURL(page, URLs.projects);
-    });
-
-    await test.step('Click on Add New Project Button', async () => {
-
-        await projectsPage.addNewProjectButton.click();
     });
 
     await projectsPage.addNewProject(page, inputData.projectDetails);

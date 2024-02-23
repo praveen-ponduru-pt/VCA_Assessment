@@ -42,11 +42,18 @@ class Projects {
         this.deleteCancelButton = page.getByRole('contentinfo').getByLabel('close');
     }
 
+    /**
+     * This method is to wait until the projects page is loaded
+     */
     async waitUntilProjectsPageIsLoaded() {
 
         await library.waitForLocatorVisiblity(this.header);
     }
 
+    /**
+    * This method is to verify stage dropdown values
+    * @param page 
+    */
     async verifyStageDropdownValues(page) {
 
         const dropdown = await page.waitForSelector('select');
@@ -62,26 +69,46 @@ class Projects {
         expect(options).toEqual(dropdownValues);
     }
 
+    /**
+     * This method is to fill the Project name field
+     * @param projectName 
+     */
     async fillNameField(projectName) {
 
         await this.nameField.fill(projectName);
     }
 
+    /**
+     * This method is to fill the Client name field
+     * @param clientName 
+     */
     async fillClientField(clientName) {
 
         await this.clientField.fill(clientName);
     }
 
+    /**
+     * This method is to fill the Description field
+     * @param description 
+     */
     async fillDescriptionField(description) {
 
         await this.descriptionField.fill(description);
     }
 
+    /**
+     * This method is to fill the Notes field
+     * @param notes 
+     */
     async fillNotesField(notes) {
 
         await this.notesField.fill(notes);
     }
 
+    /**
+     * This method validates all the fields displayed in Add new project modal
+     * @param page 
+     */
     async validateProjectsPage(page) {
 
         await expect.soft(this.header).toBeVisible();
@@ -94,6 +121,10 @@ class Projects {
         await expect.soft(this.table).toBeVisible();
     }
 
+    /**
+     * This method is to fill the name field
+     * @param page 
+     */
     async validateAddNewProjectModal(page) {
 
         await expect.soft(this.closeButton).toBeVisible();
@@ -126,6 +157,10 @@ class Projects {
     async sortClientsByDesc() {
         await this.createdColumnHeader.click();
         await this.createdColumnHeader.click();
+    }
+
+    async selectProject(projectName) {
+        await this.page.locator(`//a[text()= '${projectName}']`).click();
     }
 
     async updateProject(projectName, projectDetails) {

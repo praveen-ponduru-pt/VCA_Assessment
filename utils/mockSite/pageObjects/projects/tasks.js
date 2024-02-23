@@ -1,4 +1,6 @@
 import { expect } from '@playwright/test';
+import { library } from "../../library/library";
+import { activity } from '../../constants.json'
 
 class Tasks {
     constructor(page) {
@@ -27,7 +29,7 @@ class Tasks {
         this.deleteTaskHeader = page.locator("p.modal-card-title");
         this.deleteNotification = page.locator("div.notification.is-danger");
         //Elements for drag and drop
-        this.drsagFrom = page.locator("div.board-item.draggable").last();
+        this.dragFrom = page.locator("div.board-item.draggable").last();
         this.alltasksStatus = page.locator('#sectioncontainer');
         this.inProgressTasks = page.locator("article.message.is-link>div.message-body");
         this.issuesFoundTasks = page.locator("article.message.is-warning>div.message-body");
@@ -62,19 +64,22 @@ class Tasks {
         this.activityCancelButton = page.getByRole('contentinfo').getByLabel('close');
     }
 
-    async createNewTask(projectName) {
-        await library.waitForLocatorVisiblity(this.createdColumnHeader);
-        await this.createdColumnHeader.click();
-        await this.createdColumnHeader.click();
-        const project = this.page.locator(`//a[text()= '${projectName}']`).click();
-        // await this.page.getByText('Test_Activity6').click();
+    /**
+     * 
+     * @param {ProjectName} projectName 
+     */
+    async createNewTask(projectName, taskname) {
+        await library.waitForLocatorVisiblity(this.pageHeader);
         expect(this.page.url()).toContain(process.env.BASEURL + 'projects');
-        await expect(this.pageHeader).toContainText(projectName);
+        await expect.soft(this.pageHeader).toContainText(projectName);
         await this.addNewTask.click();
-        await this.taskTitle.fill(this.newTitle);
+        await this.taskTitle.fill(taskname.taskName);
         await this.page.keyboard.press('Enter');
     }
 
+    /**
+     * This method is to drag an element from source locator to target locator
+     */
     async dragToDestination() {
         await this.dragFrom.dragTo(this.inProgressTasks);
     }
@@ -103,8 +108,6 @@ class Tasks {
     async okButtonIndelete() {
         await this.okButton.click();
     }
-
-
 
     async activityPage(taskTitle) {
 

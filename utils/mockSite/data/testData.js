@@ -22,6 +22,14 @@ let testData = {
         }
         return inputData;
     },
+    taskDetails: () => {
+        let inputData = {
+            taskDetails: {
+                taskName: faker.commerce.productName()
+            }
+        }
+        return inputData;
+    },
     createActivityDetails: () => {
         let activity = {
             billable: faker.number.int({ min: 1000, max: 5000 }).toString(),
